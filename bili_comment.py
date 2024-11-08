@@ -65,6 +65,10 @@ def fetch_comments(video_id, max_pages=1000):
             if response.status_code == 200:
                 data = response.json()
                 if data and 'replies' in data['data']:
+                    import ipdb; ipdb.set_trace()
+                    if data['data']['replies'] is None:
+                        print("facing none replying, skipping")
+                        continue
                     for comment in data['data']['replies']:
                         comment_info = {
                             '用户昵称': comment['member']['uname'],
@@ -108,7 +112,7 @@ filename = './video_list.csv'
 # 打开文件并读取数据
 with open(filename, mode='r') as file:
     reader = csv.reader(file)
-    next(reader)  # 跳过第一行（标题行）
+    next(reader)
     for row in reader:
         video_name = row[0]  # 视频名字
         video_bv = row[1]  # video_bv
